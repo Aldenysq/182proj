@@ -1,0 +1,3 @@
+[submodule "instruction-tuned-sd-main/geo-finetuned"]
+	path = instruction-tuned-sd-main/geo-finetuned
+	url = ./
