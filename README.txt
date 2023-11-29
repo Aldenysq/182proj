@@ -18,3 +18,10 @@ accelerate launch --mixed_precision="fp16" finetune_instruct_pix2pix.py \
   --output_dir=$OUTPUT_DIR \
   --report_to=tensorboard \
   --push_to_hub
+
+
+
+  ^ for training the model (can change) train steps and checkpointing_steps
+  
+  https://huggingface.co/datasets/aldenn13l/182-fine-tune - dataset
+  https://huggingface.co/aldenn13l/geo-finetuned - model
