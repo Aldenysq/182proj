@@ -5,13 +5,14 @@ import numpy as np
 from datasets import Dataset, Features
 from datasets import Image as ImageFeature
 from datasets import Value
-import skimage.io as skio
 import json
 
 DS_NAME = "aldenn13l/182-fine-tune"
-DATA_ROOT = "data/images"
+DATA_ROOT = "data/original_images"
 INSTRUCTIONS_PATH = 'data/instruction.json'
 IMG_GAP = 50 # from img generation
+
+new_image = "data/new_images/new_street_"
 
 
 def load_instructions(instructions_path: str) -> List[str]:
@@ -23,19 +24,12 @@ def load_instructions(instructions_path: str) -> List[str]:
 def generate_examples(image_paths: List[str], instructions: List[str]):
     def fn():
         for image_path in image_paths:
-            # split image into two
-            img = skio.imread(image_path)
-            img_width = (img.shape[1] - IMG_GAP) // 2
-            img1 = img[:, 0:img_width]
-            img2 = img[:, img_width+IMG_GAP:]
-            img_num = int(image_path.split('_')[1][:-4])
-            path1 = 'data/temp/original_'+str(img_num)+'.png'
-            skio.imsave(path1, img1)
-            path2 = 'data/temp/new_'+str(img_num)+'.png'
-            skio.imsave(path2, img2)
+            path1 = image_path
+            img_num = path1[:-4].split('_')[3]
+            path2 = new_image + img_num + '.png'
             yield {
                 "original_image": {"path": path1},
-                "edit_prompt": instructions[img_num],
+                "edit_prompt": instructions[int(img_num)],
                 "new_image": {"path": path2},
             }
 
